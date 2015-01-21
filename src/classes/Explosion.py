@@ -3,6 +3,7 @@ import pygame
 from src.classes.Effect import Effect
 from src.classes.AnimatedObject import AnimatedObject
 from src.classes.Animation import Animation
+from src.Constants import *
 
 pygame.init()
 

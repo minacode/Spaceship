@@ -52,7 +52,6 @@ GREEN_DUST_MAX_ACCELERATION = 0.5
 # Images
 PATH_IMAGES = 'images/'
 
-
 PLAYER_SPACESHIP_IMAGE = 'spaceship.png'
 BLUE_DUST_IMAGE = 'blue_dust.png'
 GREEN_DUST_IMAGE = 'green_dust.png'
@@ -62,6 +61,11 @@ BACKGROUNDMUSIC = 'sounds/Faunts - M4 (Part II).mp3'
 
 EXPLOSION_SOUND = 'sounds/explosion.wav'
 EXPLOSION_VOLUME = 0.1
+
+# Sounds
+PATH_IMAGES = 'sounds/'
+
+COLLECT_SOUND = 'pop.wav'
 
 # Controls
 

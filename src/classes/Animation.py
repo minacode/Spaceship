@@ -1,4 +1,5 @@
 import pygame
+from src.classes.ImageManager import IMAGE_MANAGER
 from src.Constants import *
 
 pygame.init()
@@ -6,7 +7,8 @@ pygame.init()
 class Animation(pygame.sprite.Sprite):
     def __init__(self, img, frames = 0, size = pygame.math.Vector2(1,1), frame_delay = []):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(PATH_IMAGES + img).convert()
+        global IMAGE_MANAGER
+        self.image = IMAGE_MANAGER.load_image(img)
         self.image.set_colorkey(WHITE)
         self.size = size
         self.frames = frames

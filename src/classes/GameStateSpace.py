@@ -7,6 +7,7 @@ from src.classes.HUD import HUD
 from src.classes.StateBar import StateBar
 from src.classes.LaserCannon import LaserCannon
 from src.classes.Shield import Shield
+from src.Constants import *
 
 pygame.init()
 
