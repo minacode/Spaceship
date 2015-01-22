@@ -7,6 +7,7 @@ from src.classes.Explosion import Explosion
 from src.classes.BlueDust import BlueDust
 from src.classes.GreenDust import GreenDust
 from src.classes.TexturedObject import TexturedObject
+from src.classes.SoundManager import SOUND_MANAGER
 
 pygame.init()
 
@@ -23,8 +24,8 @@ class World(TexturedObject):
         self.effects = pygame.sprite.LayeredDirty()
         self.dust = pygame.sprite.LayeredDirty()
         self.all_objects = pygame.sprite.LayeredDirty()
-        self.explosion_sound = pygame.mixer.Sound(EXPLOSION_SOUND)
-        self.explosion_sound.set_volume(EXPLOSION_VOLUME)
+        global SOUND_MANAGER
+        SOUND_MANAGER.load_sound(EXPLOSION_SOUND, EXPLOSION_VOLUME)
 
     def set_spaceship(self, spaceship):
         if not self.spaceship is None:
@@ -39,7 +40,8 @@ class World(TexturedObject):
             self.add_stone( stone )
             
     def generate_explosion(self, pos):
-        self.explosion_sound.play()
+        global SOUND_MANAGER
+        SOUND_MANAGER.play_sound( EXPLOSION_SOUND )
         explosion = Explosion()
         explosion.rect.center = pos
         self.add_explosion(explosion)    
@@ -90,7 +92,7 @@ class World(TexturedObject):
             if not self.rect.colliderect(sprite.rect):
                 sprite.kill()
         return old_rects
-        
+    
 	# does not collide objects, if spaceship collides with stones..
     def collide_objects(self):
         if pygame.sprite.spritecollide(self.spaceship, self.stones, True):
@@ -100,6 +102,7 @@ class World(TexturedObject):
             for stone in exploding_stones.keys():
                 self.generate_explosion(stone.rect.center)
                 self.generate_dust(stone.rect.center, stone.level)
+                
             collected_dust = pygame.sprite.spritecollide(self.spaceship, self.dust, True)
             for dust in collected_dust:
                 self.spaceship.collect_dust(dust)

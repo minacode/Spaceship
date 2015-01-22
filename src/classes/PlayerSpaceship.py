@@ -2,6 +2,7 @@ import pygame
 from src.Constants import *
 from src.classes.Spaceship import Spaceship
 from src.classes.StateBar import StateBar
+from src.classes.SoundManager import SOUND_MANAGER
 from src.Constants import *
 
 pygame.init()
@@ -12,8 +13,8 @@ class PlayerSpaceship(Spaceship):
         Spaceship.__init__(self, img = img, pos = pos, direction = direction, v = v)
         self.hp = hp
         self.collected_dust = 0
-        self.collect_sound = pygame.mixer.Sound( COLLECT_SOUND )
-        self.collect_sound.set_volume(0.3)
+        global SOUND_MANAGER
+        SOUND_MANAGER.load_sound( COLLECT_SOUND, COLLECT_VOLUME )
 
     def set_weapon(self, weapon, hud):
         self.weapon = weapon
@@ -37,5 +38,6 @@ class PlayerSpaceship(Spaceship):
         return hud
 
     def collect_dust(self, dust):
-        self.collect_sound.play()
+        global SOUND_MANAGER
+        SOUND_MANAGER.play_sound( COLLECT_SOUND )
         self.collected_dust += dust.value

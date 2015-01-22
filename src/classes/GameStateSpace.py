@@ -1,12 +1,14 @@
 import pygame
 from pygame.locals import *
 import random
+import threading
 from src.classes.World import World
 from src.classes.PlayerSpaceship import PlayerSpaceship
 from src.classes.HUD import HUD
 from src.classes.StateBar import StateBar
 from src.classes.LaserCannon import LaserCannon
 from src.classes.Shield import Shield
+from src.classes.SoundManager import SOUND_MANAGER
 from src.Constants import *
 
 pygame.init()
@@ -16,6 +18,7 @@ class GameStateSpace():
         self.running = False
         self.game_running = False
         self.space_state = SPACESTATE_NORMAL
+        self.updated_rects = []
 
         self.set_screen(screen)
         self.set_clock(clock)
@@ -62,23 +65,31 @@ class GameStateSpace():
         if random.randint(1, int(1 / CHANCE_NEW_STONE)) == 1:
             self.world.generate_new_stone()
 
-    def run(self):
+    def run_graphics(self):
         self.screen.blit(self.world.image, self.world.rect.topleft)
-        pygame.mixer.music.load( BACKGROUNDMUSIC )
-        pygame.mixer.music.set_volume( BACKGROUNDMUSIC_VOLUME )
-        pygame.mixer.music.play(loops = -1)
-        self.running = True
-        self.collided = False
+        while self.running and not self.collided:
+            self.clear()
+            drawn_rects = self.draw()
+            pygame.display.update(self.updated_rects + drawn_rects)
+            
+    def run_logic(self):
         while self.running and not self.collided:
             self.clock.tick(self.fps)
-            
             self.generate_new_objects()
-            
-            self.clear()
-            updated_rects = self.update()
+            self.updated_rects = self.update()
             self.collided = self.world.collide_objects()
-            updated_rects += self.draw()
-            pygame.display.update(updated_rects)
+
+    def run(self):
+        global SOUND_MANAGER
+        SOUND_MANAGER.play_music( BACKGROUNDMUSIC, BACKGROUNDMUSIC_VOLUME )
+        self.running = True
+        self.collided = False
+
+        graphics_thread = threading.Thread(target = self.run_graphics)
+        logic_thread    = threading.Thread(target = self.run_logic)
+        graphics_thread.start()
+        logic_thread.start()
+
         return self.game_running, GAMESTATE_MAINMENU
         
     def clear(self):
