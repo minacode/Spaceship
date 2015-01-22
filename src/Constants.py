@@ -50,22 +50,23 @@ GREEN_DUST_ABS_V = 1
 GREEN_DUST_MAX_ACCELERATION = 0.5
 
 # Images
-PATH_IMAGES = 'images/'
+IMAGE_PATH = 'images/'
 
 PLAYER_SPACESHIP_IMAGE = 'spaceship.png'
 BLUE_DUST_IMAGE = 'blue_dust.png'
 GREEN_DUST_IMAGE = 'green_dust.png'
 EXPLOSION_IMAGE = 'explosion.png'
 
-BACKGROUNDMUSIC = 'sounds/Faunts - M4 (Part II).mp3'
+# Sounds
+SOUND_PATH = 'sounds/'
 
-EXPLOSION_SOUND = 'sounds/explosion.wav'
+COLLECT_SOUND = SOUND_PATH + 'pop.wav'
+LASER_CANNON_SOUND = SOUND_PATH + 'EnergyCannon.wav'
+EXPLOSION_SOUND = SOUND_PATH + 'explosion.wav'
 EXPLOSION_VOLUME = 0.1
 
-# Sounds
-PATH_IMAGES = 'sounds/'
-
-COLLECT_SOUND = 'pop.wav'
+BACKGROUNDMUSIC = SOUND_PATH + 'Faunts - M4 (Part II).mp3'
+BACKGROUNDMUSIC_VOLUME = 1.0
 
 # Controls
 

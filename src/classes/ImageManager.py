@@ -14,7 +14,7 @@ class ImageManager():
 	def load_image(self, path):
 		image = self.search_image(path)
 		if image == None:
-			image = pygame.image.load(PATH_IMAGES + path).convert()
+			image = pygame.image.load(IMAGE_PATH + path).convert()
 			self.images.update( { path : image } )
 		return image
 

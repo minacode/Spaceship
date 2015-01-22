@@ -64,8 +64,8 @@ class GameStateSpace():
 
     def run(self):
         self.screen.blit(self.world.image, self.world.rect.topleft)
-        pygame.mixer.music.load(BACKGROUNDMUSIC)
-        pygame.mixer.music.set_volume(1.0)
+        pygame.mixer.music.load( BACKGROUNDMUSIC )
+        pygame.mixer.music.set_volume( BACKGROUNDMUSIC_VOLUME )
         pygame.mixer.music.play(loops = -1)
         self.running = True
         self.collided = False

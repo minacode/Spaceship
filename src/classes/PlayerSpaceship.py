@@ -12,7 +12,7 @@ class PlayerSpaceship(Spaceship):
         Spaceship.__init__(self, img = img, pos = pos, direction = direction, v = v)
         self.hp = hp
         self.collected_dust = 0
-        self.collect_sound = pygame.mixer.Sound(PATH_SOUND + COLLECT_SOUND)
+        self.collect_sound = pygame.mixer.Sound( COLLECT_SOUND )
         self.collect_sound.set_volume(0.3)
 
     def set_weapon(self, weapon, hud):
