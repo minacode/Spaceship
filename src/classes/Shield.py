@@ -1,11 +1,12 @@
 import pygame
 from src.classes.VisibleObject import VisibleObject
 from src.classes.State import State
+from src.Constants import *
 
 pygame.init()
 
 class Shield(VisibleObject):
-    def __init__(self, img = 'shield.png', pos = pygame.math.Vector2(0,0), energy = State(500), max_energy = 1000, regeneration = 0.2):
+    def __init__(self, img = SHIELD_IMAGE, pos = pygame.math.Vector2(0,0), energy = State(500), max_energy = 1000, regeneration = 0.2):
         VisibleObject.__init__(self, img, pos)
         self.energy = energy
         self.max_energy = max_energy

@@ -53,6 +53,7 @@ GREEN_DUST_MAX_ACCELERATION = 0.5
 IMAGE_PATH = 'images/'
 
 PLAYER_SPACESHIP_IMAGE = 'spaceship.png'
+SHIELD_IMAGE = 'shield.png'
 BLUE_DUST_IMAGE = 'blue_dust.png'
 GREEN_DUST_IMAGE = 'green_dust.png'
 EXPLOSION_IMAGE = 'explosion.png'

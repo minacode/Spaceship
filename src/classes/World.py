@@ -91,6 +91,7 @@ class World(TexturedObject):
                 sprite.kill()
         return old_rects
         
+	# does not collide objects, if spaceship collides with stones..
     def collide_objects(self):
         if pygame.sprite.spritecollide(self.spaceship, self.stones, True):
             return self.spaceship.handle_collision()
