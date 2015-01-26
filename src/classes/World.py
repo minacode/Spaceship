@@ -1,5 +1,6 @@
 import copy
 import random
+import threading
 import pygame
 from src.Constants import *
 from src.classes.Stone import Stone
@@ -18,6 +19,8 @@ class World(TexturedObject):
         TexturedObject.__init__(self, pos = self.pos, size = self.size, background = WORLD_BACKGROUND)
         self.background = copy.copy(self.image)
         
+        self.all_sprites_lock = threading.Lock()
+        
         self.spaceship = None
         self.stones = pygame.sprite.LayeredDirty()
         self.shots = pygame.sprite.LayeredDirty()
@@ -31,7 +34,9 @@ class World(TexturedObject):
         if not self.spaceship is None:
             self.spaceship.kill()
         self.spaceship = spaceship
+        self.all_sprites_lock.acquire()
         self.all_objects.add(spaceship, layer = SPACESHIP_LAYER)
+        self.all_sprites_lock.release()
         
     def generate_new_stone(self):
         pos = pygame.math.Vector2( random.randint( 0, self.rect.width -50), 0)
@@ -56,29 +61,42 @@ class World(TexturedObject):
         
     def add_stone(self, stone):
         self.stones.add(stone, layer = STONE_LAYER)
+        self.all_sprites_lock.acquire()
         self.all_objects.add(stone, layer = STONE_LAYER)
+        self.all_sprites_lock.release()
     
-    def add_shot(self, shot):
-        self.shots.add(shot, layer = SHOT_LAYER)
-        self.all_objects.add(shot, layer = SHOT_LAYER)
+    def add_shot(self, shots):
+        for shot in shots:
+            self.shots.add(shot, layer = SHOT_LAYER)
+            self.all_sprites_lock.acquire()
+            self.all_objects.add(shot, layer = SHOT_LAYER)
+            self.all_sprites_lock.release()
         
     def add_explosion(self, explosion):
         self.effects.add(explosion, layer = EFFECT_LAYER)
+        self.all_sprites_lock.acquire()
         self.all_objects.add(explosion, layer = EFFECT_LAYER)
+        self.all_sprites_lock.release()
         
     def add_dust(self, dust):
         self.dust.add(dust, layer = DUST_LAYER)
+        self.all_sprites_lock.acquire()
         self.all_objects.add(dust, layer = DUST_LAYER)
+        self.all_sprites_lock.release()
         
     def clear(self):
+        self.all_sprites_lock.acquire()
         self.all_objects.clear(self.image, self.background)
+        self.all_sprites_lock.release()
         
     def update(self):
         old_rects = []
         for sprite in self.dust:
             sprite.follow_pos(self.spaceship.rect.center)
+        self.all_sprites_lock.acquire()
         for sprite in self.all_objects.sprites():
             old_rects += sprite.update()
+        self.all_sprites_lock.release()
         if self.spaceship.rect.left < 0:
             self.spaceship.rect.left = 0
         if self.spaceship.rect.right > self.rect.width:
@@ -87,10 +105,12 @@ class World(TexturedObject):
         for effect in self.effects.sprites():
             if effect.counter >= effect.max_counter:
                 effect.kill()
-            
+        
+        self.all_sprites_lock.acquire()
         for sprite in self.all_objects.sprites():
             if not self.rect.colliderect(sprite.rect):
                 sprite.kill()
+        self.all_sprites_lock.release()
         return old_rects
     
 	# does not collide objects, if spaceship collides with stones..
@@ -110,7 +130,9 @@ class World(TexturedObject):
         
 
     def draw(self, screen):
+        self.all_sprites_lock.acquire()
         drawn_rects = self.all_objects.draw(self.image)
+        self.all_sprites_lock.release()
         for i in range(len(drawn_rects)):
             pos = [ drawn_rects[i].left + self.rect.left , drawn_rects[i].top + self.rect.top ]
             screen.blit(self.image, pos, drawn_rects[i])

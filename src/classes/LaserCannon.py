@@ -10,10 +10,12 @@ class LaserCannon(Weapon):
         global SOUND_MANAGER
         SOUND_MANAGER.load_sound( LASER_CANNON_SOUND, LASER_CANNON_VOLUME )
         
-    def create_shot(self, pos, world):
+    def create_shot(self, pos):
         global SOUND_MANAGER
         SOUND_MANAGER.play_sound( LASER_CANNON_SOUND )
         offset = pygame.math.Vector2(10,0)
-        world.add_shot( LaserShot(pos = pos, direction = self.direction) )
-        world.add_shot( LaserShot(pos = pos - offset, direction = self.direction) )
-        world.add_shot( LaserShot(pos = pos + offset, direction = self.direction) )
+        return [
+			LaserShot(pos = pos, direction = self.direction),
+			LaserShot(pos = pos - offset, direction = self.direction),
+			LaserShot(pos = pos + offset, direction = self.direction)
+		]

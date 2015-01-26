@@ -30,14 +30,12 @@ class Weapon():
             if self.get_counter() < self.reload_time:
                 self.increment_counter()
             
-    def shoot(self, pos, world):
+    def shoot(self, pos):
         pos += self.position
         if not self.reload_time is None:
             if self.get_counter() >= self.reload_time:
                 self.set_counter(0)
-                self.create_shot(pos, world)
-        else:
-            self.create_shot(pos, world)
+        return self.create_shot(pos)
             
-    def create_shot(self, pos, world):
-        pass # template method
+    def create_shot(self, pos):
+        return []

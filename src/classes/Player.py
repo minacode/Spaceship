@@ -24,7 +24,7 @@ class Player():
         if not self.spaceship is None:
             if event.type == KEYDOWN:
                 if event.key == KEY_SHOOT:
-                    self.spaceship.shoot(world)
+                    world.add_shot( self.spaceship.shoot() )
                 if event.key == KEY_MOVE_LEFT:
                     self.spaceship.accelerate_left(PLAYER_SPACESHIP_SPEED)
                 if event.key == KEY_MOVE_RIGHT:
@@ -36,7 +36,7 @@ class Player():
                     self.spaceship.accelerate_left(PLAYER_SPACESHIP_SPEED)
             if event.type == JOYBUTTONDOWN:
                 if event.button == JOYBUTTON_SHOOT:
-                    self.spaceship.shoot(world)
+                    world.add_shot( self.spaceship.shoot() )
                 if event.button == JOYBUTTON_MOVE_LEFT:
                     self.spaceship.accelerate_left(PLAYER_SPACESHIP_SPEED)
                 if event.button == JOYBUTTON_MOVE_RIGHT:

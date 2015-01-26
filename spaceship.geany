@@ -22,12 +22,15 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=6
-FILE_NAME_0=34;Python;0;EUTF-8;1;1;0;%2Fhome%2Fmax%2FDocuments%2FGit%2Fspaceship%2FMain.py;0;4
+current_page=0
+FILE_NAME_0=60;Python;0;EUTF-8;1;1;0;%2Fhome%2Fmax%2FDocuments%2FGit%2Fspaceship%2FMain.py;0;4
 FILE_NAME_1=1247;Python;0;EUTF-8;1;1;0;%2Fhome%2Fmax%2FDocuments%2FGit%2Fspaceship%2Fsrc%2FConstants.py;0;4
-FILE_NAME_2=569;Python;0;EUTF-8;1;1;0;%2Fhome%2Fmax%2FDocuments%2FGit%2Fspaceship%2Fsrc%2Fclasses%2FGame.py;0;4
-FILE_NAME_3=1583;Python;0;EUTF-8;1;1;0;%2Fhome%2Fmax%2FDocuments%2FGit%2Fspaceship%2Fsrc%2Fclasses%2FWorld.py;0;4
-FILE_NAME_4=2034;Python;0;EUTF-8;1;1;0;%2Fhome%2Fmax%2FDocuments%2FGit%2Fspaceship%2Fsrc%2Fclasses%2FGameStateSpace.py;0;4
-FILE_NAME_5=567;Python;0;EUTF-8;1;1;0;%2Fhome%2Fmax%2FDocuments%2FGit%2Fspaceship%2Fsrc%2Fclasses%2FSoundManager.py;0;4
-FILE_NAME_6=1609;Python;0;EUTF-8;1;1;0;%2Fhome%2Fmax%2FDocuments%2FGit%2Fspaceship%2Fsrc%2Fclasses%2FPlayerSpaceship.py;0;4
-FILE_NAME_7=675;Python;0;EUTF-8;1;1;0;%2Fhome%2Fmax%2FDocuments%2FGit%2Fspaceship%2Fsrc%2Fclasses%2FLaserCannon.py;0;4
+FILE_NAME_2=5332;Python;0;EUTF-8;1;1;0;%2Fhome%2Fmax%2FDocuments%2FGit%2Fspaceship%2Fsrc%2Fclasses%2FWorld.py;0;4
+FILE_NAME_3=767;Python;0;EUTF-8;1;1;0;%2Fhome%2Fmax%2FDocuments%2FGit%2Fspaceship%2Fsrc%2Fclasses%2FGame.py;0;4
+FILE_NAME_4=3749;Python;0;EUTF-8;1;1;0;%2Fhome%2Fmax%2FDocuments%2FGit%2Fspaceship%2Fsrc%2Fclasses%2FGameStateSpace.py;0;4
+FILE_NAME_5=1411;Python;0;EUTF-8;1;1;0;%2Fhome%2Fmax%2FDocuments%2FGit%2Fspaceship%2Fsrc%2Fclasses%2FPlayer.py;0;4
+FILE_NAME_6=1614;Python;0;EUTF-8;1;1;0;%2Fhome%2Fmax%2FDocuments%2FGit%2Fspaceship%2Fsrc%2Fclasses%2FSpaceship.py;0;4
+FILE_NAME_7=1652;Python;0;EUTF-8;1;1;0;%2Fhome%2Fmax%2FDocuments%2FGit%2Fspaceship%2Fsrc%2Fclasses%2FPlayerSpaceship.py;0;4
+FILE_NAME_8=786;Python;0;EUTF-8;1;1;0;%2Fhome%2Fmax%2FDocuments%2FGit%2Fspaceship%2Fsrc%2Fclasses%2FShield.py;0;4
+FILE_NAME_9=1148;Python;0;EUTF-8;1;1;0;%2Fhome%2Fmax%2FDocuments%2FGit%2Fspaceship%2Fsrc%2Fclasses%2FWeapon.py;0;4
+FILE_NAME_10=582;Python;0;EUTF-8;1;1;0;%2Fhome%2Fmax%2FDocuments%2FGit%2Fspaceship%2Fsrc%2Fclasses%2FLaserCannon.py;0;4

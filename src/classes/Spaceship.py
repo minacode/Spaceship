@@ -27,9 +27,11 @@ class Spaceship(VisibleObject, MovableObject, CollidableObject):
         else:
             return True
         
-    def shoot(self, world):
+    def shoot(self):
         if not self.weapon is None:
-            self.weapon.shoot( list(self.rect.topleft), world )
+            return self.weapon.shoot( list(self.rect.topleft))
+        else:
+            return []
     
     def clear(self, screen, background):
         VisibleObject.clear(self, screen, background)
