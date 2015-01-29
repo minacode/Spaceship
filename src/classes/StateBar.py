@@ -6,7 +6,15 @@ from src.classes.State import State
 pygame.init()
 
 class StateBar(TexturedObject):
-    def __init__(self, state = State(0), max_state_value = 1, size = pygame.math.Vector2(1,1), pos = pygame.math.Vector2(0,0), img = None, direction = pygame.math.Vector2(1,0), color = BLACK, background = GREEN):
+    def __init__(self, 
+                 state = State(0), 
+                 max_state_value = 1, 
+                 size = pygame.math.Vector2(1,1), 
+                 pos = pygame.math.Vector2(0,0), 
+                 img = None, 
+                 direction = pygame.math.Vector2(1,0), 
+                 color = BLACK, 
+                 background = GREEN ):
         TexturedObject.__init__(self, size = size, pos = pos, img = img, background = background)
         self.max_state_value = max_state_value
         self.state = state

@@ -28,15 +28,17 @@ class PlayerSpaceship(Spaceship):
 
     def set_weapon(self, weapon, hud):
         self.weapon = weapon
-        hud.add( StateBar(state = weapon.counter,
-                          max_state_value = weapon.reload_time,
-                          size = pygame.math.Vector2(300,6),
-                          pos = pygame.math.Vector2(5,500),
-                          direction = pygame.math.Vector2(1,0)
-               ) )
+        if not self.weapon.reload_time is None:
+            hud.add( StateBar(state = weapon.counter,
+                              max_state_value = weapon.reload_time,
+                              size = pygame.math.Vector2(300,6),
+                              pos = pygame.math.Vector2(5,500),
+                              direction = pygame.math.Vector2(1,0)
+            ) )
         return hud
 
     def collect_dust(self, dust):
         global SOUND_MANAGER
         SOUND_MANAGER.play_sound( COLLECT_SOUND )
         self.collected_dust += dust.value
+        self.energy.increase( dust.energy_value )

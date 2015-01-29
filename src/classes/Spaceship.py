@@ -4,6 +4,7 @@ from src.classes.MovableObject import MovableObject
 from src.classes.CollidableObject import CollidableObject
 from src.classes.State import State
 from src.classes.StateBar import StateBar
+from src.Constants import *
 
 pygame.init()
 
@@ -15,7 +16,7 @@ class Spaceship(VisibleObject, MovableObject, CollidableObject):
             v = pygame.math.Vector2(0,0), 
             energy = State(500), 
             max_energy = 1000, 
-            regeneration = 2, 
+            regeneration = PLAYER_SPACESHIP_ENERGY_REGENERATION, 
             weapon = None, 
             shield = None, 
             hp = None, 

@@ -24,11 +24,14 @@ class Weapon():
             
     def shoot(self, energy, pos):
         if energy.get_value() >= self.energy_cost:
-            energy.decrease( self.energy_cost )
             pos += self.position
-            if not self.reload_time is None:
+            if not self.counter is None:
                 if self.counter.get_value() >= self.reload_time:
+                    energy.decrease( self.energy_cost )
                     self.counter.set_value(0)
+                    return energy, self.create_shot(pos)
+                return energy, []
+            energy.decrease( self.energy_cost )
             return energy, self.create_shot(pos)
         return energy, []
             

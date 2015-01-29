@@ -76,7 +76,8 @@ class GameStateSpace():
         while self.running and not self.collided:
             self.clock.tick(self.fps)
             self.generate_new_objects()
-            self.updated_rects = self.update( self.clock.get_time() )
+            time = self.clock.get_time() / 1000
+            self.updated_rects = self.update( time )
             self.collided = self.world.collide_objects()
 
     def run(self):

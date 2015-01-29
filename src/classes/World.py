@@ -127,7 +127,6 @@ class World(TexturedObject):
                 self.spaceship.collect_dust(dust)
             return False
         
-
     def draw(self, screen):
         self.all_sprites_lock.acquire()
         drawn_rects = self.all_objects.draw(self.image)
