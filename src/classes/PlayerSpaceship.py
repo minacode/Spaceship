@@ -16,6 +16,16 @@ class PlayerSpaceship(Spaceship):
         global SOUND_MANAGER
         SOUND_MANAGER.load_sound( COLLECT_SOUND, COLLECT_VOLUME )
 
+    def init_hud(self, hud):
+        hud.add( StateBar(state = self.energy,
+                          max_state_value = self.max_energy,
+                          size = pygame.math.Vector2(5,500),
+                          pos = pygame.math.Vector2(0, 0),
+                          direction = pygame.math.Vector2(0,-1),
+                          color = BLUE
+                ) )
+        return hud
+
     def set_weapon(self, weapon, hud):
         self.weapon = weapon
         hud.add( StateBar(state = weapon.counter,
@@ -24,17 +34,6 @@ class PlayerSpaceship(Spaceship):
                           pos = pygame.math.Vector2(5,500),
                           direction = pygame.math.Vector2(1,0)
                ) )
-        return hud
-
-    def set_shield(self, shield, hud):
-        self.shield = shield
-        hud.add( StateBar(state = shield.energy,
-                          max_state_value = shield.max_energy,
-                          size = pygame.math.Vector2(5,500),
-                          pos = pygame.math.Vector2(0, 0),
-                          direction = pygame.math.Vector2(0,-1),
-                          color = BLUE
-                ) )
         return hud
 
     def collect_dust(self, dust):

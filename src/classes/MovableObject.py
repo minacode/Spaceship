@@ -18,9 +18,9 @@ class MovableObject():
         self.vec_pos = pos
         self.rect.topleft = ( int(self.vec_pos.x), int(self.vec_pos.y) )
         
-    def update(self):
+    def update(self, frame_time):
         old_rect = copy.copy(self.rect)
-        self.vec_pos = self.vec_pos + self.v
+        self.vec_pos = self.vec_pos + (self.v * frame_time)
         self.rect.top = int(self.vec_pos.y)
         self.rect.left = int(self.vec_pos.x)
         #self.rect.topleft += self.v

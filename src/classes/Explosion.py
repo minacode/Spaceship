@@ -16,7 +16,7 @@ class Explosion(AnimatedObject, Effect):
         self.counter = 0
         self.max_counter = 50
 
-    def update(self):
+    def update(self, frame_time):
         AnimatedObject.update(self)
-        Effect.update(self)
+        Effect.update(self, frame_time)
         return [copy.copy(self.rect)]

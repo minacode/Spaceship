@@ -5,8 +5,8 @@ from src.classes.SoundManager import SOUND_MANAGER
 from src.Constants import *
 
 class LaserCannon(Weapon):
-    def __init__(self, pos = pygame.math.Vector2(0,0), direction = pygame.math.Vector2(0,-1), counter = 60, reload_time = 5):
-        Weapon.__init__(self, pos = pos, direction = direction, counter = counter, reload_time = reload_time)
+    def __init__(self, pos = pygame.math.Vector2(0,0), direction = pygame.math.Vector2(0,-1), counter = 60, reload_time = 5, energy_cost = 50):
+        Weapon.__init__(self, pos = pos, direction = direction, counter = counter, reload_time = reload_time, energy_cost = energy_cost)
         global SOUND_MANAGER
         SOUND_MANAGER.load_sound( LASER_CANNON_SOUND, LASER_CANNON_VOLUME )
         

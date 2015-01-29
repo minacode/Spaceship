@@ -6,10 +6,12 @@ pygame.init()
 
 class Player():
     def __init__(self):
-        pass
+        self.hud = None
         
     def set_spaceship(self, spaceship):
         self.spaceship = spaceship
+        if self.hud is not None:
+        	self.hud = self.spaceship.init_hud(self.hud)
         
     def set_hud(self, hud):
         self.hud = hud
@@ -18,7 +20,7 @@ class Player():
         self.hud = self.spaceship.set_weapon(weapon, self.hud)
         
     def set_shield(self, shield):
-        self.hud = self.spaceship.set_shield(shield, self.hud)
+        self.spaceship.set_shield(shield)
         
     def handle_event(self, event, world):
         if not self.spaceship is None:
@@ -50,7 +52,7 @@ class Player():
     def clear(self, screen, background):
         self.hud.clear(screen, background)
     
-    def update(self):
+    def update(self, frame_time):
         if not self.hud is None:
             self.hud.update()
         

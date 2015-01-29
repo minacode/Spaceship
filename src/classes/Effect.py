@@ -3,5 +3,5 @@ class Effect():
         self.counter = counter
         self.max_counter = max_counter
         
-    def update(self):
+    def update(self, frame_time):
         self.counter += 1

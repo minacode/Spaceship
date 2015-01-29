@@ -29,6 +29,6 @@ class Dust(VisibleObject, MovableObject, CollidableObject):
             self.direction = pygame.math.Vector2(0,1)
         self.v = self.direction * self.speed
         
-    def update(self):
-        old_rect = MovableObject.update(self)
+    def update(self, frame_time):
+        old_rect = MovableObject.update(self, frame_time)
         return old_rect

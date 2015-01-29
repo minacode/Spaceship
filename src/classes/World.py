@@ -2,6 +2,7 @@ import copy
 import random
 import threading
 import pygame
+from pygame.locals import *
 from src.Constants import *
 from src.classes.Stone import Stone
 from src.classes.Explosion import Explosion
@@ -18,9 +19,7 @@ class World(TexturedObject):
         self.size = WORLD_SIZE
         TexturedObject.__init__(self, pos = self.pos, size = self.size, background = WORLD_BACKGROUND)
         self.background = copy.copy(self.image)
-        
-        self.all_sprites_lock = threading.Lock()
-        
+        self.all_sprites_lock = threading.Lock()        
         self.spaceship = None
         self.stones = pygame.sprite.LayeredDirty()
         self.shots = pygame.sprite.LayeredDirty()
@@ -89,13 +88,13 @@ class World(TexturedObject):
         self.all_objects.clear(self.image, self.background)
         self.all_sprites_lock.release()
         
-    def update(self):
+    def update(self, frame_time):
         old_rects = []
         for sprite in self.dust:
             sprite.follow_pos(self.spaceship.rect.center)
         self.all_sprites_lock.acquire()
         for sprite in self.all_objects.sprites():
-            old_rects += sprite.update()
+            old_rects += sprite.update(frame_time)
         self.all_sprites_lock.release()
         if self.spaceship.rect.left < 0:
             self.spaceship.rect.left = 0

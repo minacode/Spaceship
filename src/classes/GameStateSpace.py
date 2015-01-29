@@ -27,10 +27,10 @@ class GameStateSpace():
         self.set_world( World() )
         self.set_player(player)
         
+        self.player.set_hud( HUD() )
         spaceship = PlayerSpaceship(PLAYER_SPACESHIP_IMAGE, pygame.math.Vector2(WORLD_SIZE.x * 0.5, WORLD_SIZE.y * 0.8) )
         self.player.set_spaceship(spaceship)
         self.world.set_spaceship(spaceship)
-        self.player.set_hud( HUD() )
         self.player.set_weapon( LaserCannon( pos = pygame.math.Vector2(self.player.spaceship.rect.width / 2, 0) ) )
         self.player.set_shield( Shield() )
 
@@ -76,7 +76,7 @@ class GameStateSpace():
         while self.running and not self.collided:
             self.clock.tick(self.fps)
             self.generate_new_objects()
-            self.updated_rects = self.update()
+            self.updated_rects = self.update( self.clock.get_time() )
             self.collided = self.world.collide_objects()
 
     def run(self):
@@ -113,13 +113,13 @@ class GameStateSpace():
             elif not self.player is None:
                 self.player.handle_event(event, self.world)
 
-    def update(self):
+    def update(self, frame_time):
         self.handle_input()
         old_rects = []
         if not self.player is None:
-            self.player.update()
+            self.player.update(frame_time)
         if not self.world is None:
-            old_rects += self.world.update()
+            old_rects += self.world.update(frame_time)
         return old_rects
             
     def draw(self):
