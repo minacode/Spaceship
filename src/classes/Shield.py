@@ -5,7 +5,7 @@ from src.Constants import *
 pygame.init()
 
 class Shield(VisibleObject):
-    def __init__(self, img = SHIELD_IMAGE, pos = pygame.math.Vector2(0,0), collision_energy = 200):
+    def __init__(self, img = SHIELD_IMAGE, pos = pygame.math.Vector2(0,0), collision_energy = 300):
         VisibleObject.__init__(self, img, pos)
         self.collision_energy = collision_energy
 

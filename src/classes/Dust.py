@@ -18,6 +18,9 @@ class Dust(VisibleObject, MovableObject, CollidableObject):
         self.follow_radius = follow_radius
         self.speed = speed
     
+    def get_value(self):
+        return self.value
+    
     def set_direction(self, direction):
         self.direction = direction
         self.v = self.direction * self.speed

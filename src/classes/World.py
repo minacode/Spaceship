@@ -14,13 +14,14 @@ from src.classes.SoundManager import SOUND_MANAGER
 pygame.init()
 
 class World(TexturedObject):
-    def __init__(self):
+    def __init__(self, player, spaceship = None):
         self.pos = WORLD_POS
         self.size = WORLD_SIZE
         TexturedObject.__init__(self, pos = self.pos, size = self.size, background = WORLD_BACKGROUND)
         self.background = copy.copy(self.image)
-        self.all_sprites_lock = threading.Lock()        
-        self.spaceship = None
+        self.all_sprites_lock = threading.Lock()
+        self.player = player
+        self.spaceship = spaceship
         self.stones = pygame.sprite.LayeredDirty()
         self.shots = pygame.sprite.LayeredDirty()
         self.effects = pygame.sprite.LayeredDirty()
@@ -37,7 +38,7 @@ class World(TexturedObject):
         self.all_objects.add(spaceship, layer = SPACESHIP_LAYER)
         self.all_sprites_lock.release()
         
-    def generate_new_stone(self):
+    def generate_stone(self):
         pos = pygame.math.Vector2( random.randint( 0, self.rect.width -50), 0)
         stone = Stone( pos = pos , level = random.randint(1, MAX_STONE_LEVEL) )
         if not pygame.sprite.spritecollideany(stone, self.stones):
@@ -124,6 +125,7 @@ class World(TexturedObject):
                 
             collected_dust = pygame.sprite.spritecollide(self.spaceship, self.dust, True)
             for dust in collected_dust:
+                self.player.collect_dust(dust)
                 self.spaceship.collect_dust(dust)
             return False
         

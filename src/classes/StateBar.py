@@ -26,7 +26,7 @@ class StateBar(TexturedObject):
             self.render()
         else:
             self.image.fill(self.color)
-            
+
     def render(self):
         self.image.fill(self.background)
         if self.direction.x != 0 and self.direction.y == 0:

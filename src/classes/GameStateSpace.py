@@ -7,6 +7,7 @@ from src.classes.PlayerSpaceship import PlayerSpaceship
 from src.classes.HUD import HUD
 from src.classes.StateBar import StateBar
 from src.classes.LaserCannon import LaserCannon
+from src.classes.LaserPulseCannon import LaserPulseCannon
 from src.classes.Shield import Shield
 from src.classes.SoundManager import SOUND_MANAGER
 from src.Constants import *
@@ -17,22 +18,24 @@ class GameStateSpace():
     def __init__(self, player, screen, clock, fps):
         self.running = False
         self.game_running = False
-        self.space_state = SPACESTATE_NORMAL
+        self.space_state = SPACESTATE_ASTEROIDS
         self.updated_rects = []
 
         self.set_screen(screen)
         self.set_clock(clock)
         self.set_fps(fps)
 
-        self.set_world( World() )
+        self.set_world( World( player ) )
         self.set_player(player)
         
-        self.player.set_hud( HUD() )
         spaceship = PlayerSpaceship(PLAYER_SPACESHIP_IMAGE, pygame.math.Vector2(WORLD_SIZE.x * 0.5, WORLD_SIZE.y * 0.8) )
+        spaceship.set_weapon( PRIMARY_WEAPON_INDEX, LaserCannon( pos = pygame.math.Vector2( spaceship.rect.width / 2, 0 )))
+        spaceship.set_weapon( SECONDARY_WEAPON_INDEX, LaserPulseCannon( pos = pygame.math.Vector2( spaceship.rect.width / 2, 0 )))
+        spaceship.set_shield( Shield() )
         self.player.set_spaceship(spaceship)
         self.world.set_spaceship(spaceship)
-        self.player.set_weapon( LaserCannon( pos = pygame.math.Vector2(self.player.spaceship.rect.width / 2, 0) ) )
-        self.player.set_shield( Shield() )
+        
+        self.player.set_hud( HUD() )
 
     def set_screen(self, screen):
         self.screen = screen
@@ -58,12 +61,17 @@ class GameStateSpace():
         self.game_running = False
 
     def generate_new_objects(self):
-        if self.space_state == SPACESTATE_NORMAL:
-            self.generate_normal_space()
+        if self.space_state == SPACESTATE_ASTEROIDS:
+            self.generate_stones()
+        if self.space_state == SPACESTATE_BOSS:
+            self.generate_boss()
 
-    def generate_normal_space(self):
+    def generate_stones(self):
         if random.randint(1, int(1 / CHANCE_NEW_STONE)) == 1:
-            self.world.generate_new_stone()
+            self.world.generate_stone()
+
+    def generate_boss(self):
+        self.world.generate_boss()
 
     def run_graphics(self):
         self.screen.blit(self.world.image, self.world.rect.topleft)
@@ -108,7 +116,7 @@ class GameStateSpace():
                     self.player.handle_event(event, self.world)
             elif event.type == JOYBUTTONDOWN:
                 if event.button == JOYBUTTON_QUIT_GAME:
-                    self.stop()
+                    self.quit_game()
                 elif not self.player is None:
                     self.player.handle_event(event, self.world)
             elif not self.player is None:

@@ -17,7 +17,7 @@ class Spaceship(VisibleObject, MovableObject, CollidableObject):
             energy = State(500), 
             max_energy = 1000, 
             regeneration = PLAYER_SPACESHIP_ENERGY_REGENERATION, 
-            weapon = None, 
+            weapons = [None, None], 
             shield = None, 
             hp = None, 
             max_hp = None ):
@@ -28,11 +28,11 @@ class Spaceship(VisibleObject, MovableObject, CollidableObject):
         self.energy = energy
         self.max_energy = max_energy
         self.regeneration = regeneration
-        self.weapon = weapon
+        self.weapons = weapons
         self.shield = shield
 
-    def set_weapon(self, weapon):
-        self.weapon = weapon
+    def set_weapon(self, index, weapon):
+        self.weapons[index] = weapon
         
     def set_shield(self, shield):
         self.shield = shield
@@ -51,9 +51,9 @@ class Spaceship(VisibleObject, MovableObject, CollidableObject):
                 return False
         return True
         
-    def shoot(self):
-        if not self.weapon is None:
-            self.energy, shots = self.weapon.shoot( self.energy, list(self.rect.topleft) )
+    def shoot_weapon(self, i):
+        if not self.weapons[i] is None:
+            self.energy, shots = self.weapons[i].shoot( self.energy, list(self.rect.topleft) )
             return shots
         else:
             return []
@@ -67,8 +67,9 @@ class Spaceship(VisibleObject, MovableObject, CollidableObject):
         if self.energy.get_value() < self.max_energy:
             self.load_energy(frame_time)
         old_rect = MovableObject.update(self, frame_time)
-        if not self.weapon is None:
-            self.weapon.update(frame_time)
+        for weapon in self.weapons:
+            if not weapon is None:
+                weapon.update(frame_time)
         if not self.shield is None:
             self.shield.update(self.rect.topleft)
         return old_rect

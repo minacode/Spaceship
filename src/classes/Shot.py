@@ -20,8 +20,8 @@ class Shot(VisibleObject, MovableObject, CollidableObject):
 
     def set_direction(self, direction):
         self.direction = direction
-        angle = pygame.math.Vector2(0,-1).angle_to( self.direction )
-        self.image = pygame.transform.rotate(self.image, angle)
+        angle = pygame.math.Vector2(0,1).angle_to( self.direction )
+        self.image = pygame.transform.rotate(self.image, -angle)
 
     def update(self, frame_time):
         old_rect = MovableObject.update(self, frame_time)
