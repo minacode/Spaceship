@@ -1,11 +1,14 @@
 import copy
 import random
+import math
 import threading
 import pygame
 from pygame.locals import *
 from src.Constants import *
 from src.classes.Stone import Stone
+from src.classes.EnemySpaceship import EnemySpaceship
 from src.classes.Explosion import Explosion
+from src.classes.SpaceshipWreckage import SpaceshipWreckage
 from src.classes.BlueDust import BlueDust
 from src.classes.GreenDust import GreenDust
 from src.classes.TexturedObject import TexturedObject
@@ -23,6 +26,8 @@ class World(TexturedObject):
         self.player = player
         self.spaceship = spaceship
         self.stones = pygame.sprite.LayeredDirty()
+        self.enemy_spaceships = pygame.sprite.LayeredDirty()
+        self.spaceship_wreckages = pygame.sprite.LayeredDirty()
         self.shots = pygame.sprite.LayeredDirty()
         self.effects = pygame.sprite.LayeredDirty()
         self.dust = pygame.sprite.LayeredDirty()
@@ -59,6 +64,18 @@ class World(TexturedObject):
         dust.set_pos(pygame.math.Vector2(pos))
         self.add_dust(dust)
         
+    def generate_enemy_spaceship(self):
+        pos = pygame.math.Vector2( random.randint( 0, self.rect.width -50), 0)
+        enemy_spaceship = EnemySpaceship( pos = pos )
+        if not pygame.sprite.spritecollideany(enemy_spaceship, self.enemy_spaceships):
+            self.add_enemy_spaceship( enemy_spaceship )
+        
+    def generate_spaceship_wreckage(self, center):
+        self.add_spaceship_wreckage([ SpaceshipWreckage( img = SPACESHIP_WRECKAGE_IMAGE, pos = center, direction = pygame.math.Vector2(0, 0.5)) ])
+        self.add_spaceship_wreckage([ SpaceshipWreckage( img = SPACESHIP_WRECKAGE_IMAGE, pos = center, direction = pygame.math.Vector2(0, 1.5)) ])        
+        self.add_spaceship_wreckage([ SpaceshipWreckage( img = SPACESHIP_WRECKAGE_IMAGE, pos = center, direction = pygame.math.Vector2(-1, 1.5)) ])
+        self.add_spaceship_wreckage([ SpaceshipWreckage( img = SPACESHIP_WRECKAGE_IMAGE, pos = center, direction = pygame.math.Vector2(1, 1.5)) ])
+        
     def add_stone(self, stone):
         self.stones.add(stone, layer = STONE_LAYER)
         self.all_sprites_lock.acquire()
@@ -77,6 +94,12 @@ class World(TexturedObject):
         self.all_sprites_lock.acquire()
         self.all_objects.add(explosion, layer = EFFECT_LAYER)
         self.all_sprites_lock.release()
+    
+    def add_spaceship_wreckage(self, wreckage):
+        self.spaceship_wreckages.add( wreckage )
+        self.all_sprites_lock.acquire()
+        self.all_objects.add(wreckage, layer = SPACESHIP_LAYER)
+        self.all_sprites_lock.release()
         
     def add_dust(self, dust):
         self.dust.add(dust, layer = DUST_LAYER)
@@ -84,6 +107,12 @@ class World(TexturedObject):
         self.all_objects.add(dust, layer = DUST_LAYER)
         self.all_sprites_lock.release()
         
+    def add_enemy_spaceship(self, enemy_spaceship):
+        self.enemy_spaceships.add(enemy_spaceship)
+        self.all_sprites_lock.acquire()
+        self.all_objects.add(enemy_spaceship, layer = SPACESHIP_LAYER)
+        self.all_sprites_lock.release()
+    
     def clear(self):
         self.all_sprites_lock.acquire()
         self.all_objects.clear(self.image, self.background)
@@ -115,20 +144,32 @@ class World(TexturedObject):
     
 	# does not collide objects, if spaceship collides with stones..
     def collide_objects(self):
-        if pygame.sprite.spritecollide(self.spaceship, self.stones, True):
-            return self.spaceship.handle_collision()
+        for group in [self.stones, self.enemy_spaceships, self.spaceship_wreckages]:
+            if pygame.sprite.spritecollide(self.spaceship, group, True):
+                return self.spaceship.handle_collision()
         else:
-            exploding_stones = pygame.sprite.groupcollide(self.stones, self.shots, True, True)
-            for stone in exploding_stones.keys():
-                self.generate_explosion(stone.rect.center)
-                self.generate_dust(stone.rect.center, stone.level)
+            for group in (self.shots, self.spaceship_wreckages):
+                exploding_stones = pygame.sprite.groupcollide(self.stones, group, True, True)
+                for stone in exploding_stones.keys():
+                    self.generate_explosion(stone.rect.center)
+                    self.generate_dust(stone.rect.center, stone.level)
+            
+            for group in (self.shots, self.spaceship_wreckages):
+                exploding_enemy_spaceships = pygame.sprite.groupcollide(self.enemy_spaceships, group, True, True)
+                for enemy_spaceship in exploding_enemy_spaceships.keys():
+                    self.generate_explosion(enemy_spaceship.rect.center)
+                    self.generate_spaceship_wreckage(enemy_spaceship.rect.center)
+                
+            exploding_wreckages = pygame.sprite.groupcollide(self.spaceship_wreckages, self.shots, True, True)
+            for exploding_wreckage in exploding_wreckages.keys():
+                self.generate_explosion(exploding_wreckage.rect.center)
                 
             collected_dust = pygame.sprite.spritecollide(self.spaceship, self.dust, True)
             for dust in collected_dust:
                 self.player.collect_dust(dust)
                 self.spaceship.collect_dust(dust)
             return False
-        
+
     def draw(self, screen):
         self.all_sprites_lock.acquire()
         drawn_rects = self.all_objects.draw(self.image)

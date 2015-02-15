@@ -18,7 +18,7 @@ class GameStateSpace():
     def __init__(self, player, screen, clock, fps):
         self.running = False
         self.game_running = False
-        self.space_state = SPACESTATE_ASTEROIDS
+        self.space_state = SPACESTATE_NORMAL
         self.updated_rects = []
 
         self.set_screen(screen)
@@ -61,7 +61,10 @@ class GameStateSpace():
         self.game_running = False
 
     def generate_new_objects(self):
-        if self.space_state == SPACESTATE_ASTEROIDS:
+        if self.space_state == SPACESTATE_NORMAL:
+            self.generate_stones()
+            self.generate_enemy_spaceships()
+        if self.space_state == SPACESTATE_STONES:
             self.generate_stones()
         if self.space_state == SPACESTATE_BOSS:
             self.generate_boss()
@@ -69,6 +72,10 @@ class GameStateSpace():
     def generate_stones(self):
         if random.randint(1, int(1 / CHANCE_NEW_STONE)) == 1:
             self.world.generate_stone()
+
+    def generate_enemy_spaceships(self):
+        if random.randint(1, int(1 / CHANCE_NEW_ENEMY_SPACESHIP)) == 1:
+            self.world.generate_enemy_spaceship()
 
     def generate_boss(self):
         self.world.generate_boss()
@@ -109,6 +116,8 @@ class GameStateSpace():
 
     def handle_input(self):
         for event in pygame.event.get():
+            if event.type == QUIT:
+                self.quit_game()
             if event.type == KEYDOWN:
                 if event.key == KEY_QUIT_GAME:
                     self.quit_game()

@@ -24,5 +24,4 @@ class Shot(VisibleObject, MovableObject, CollidableObject):
         self.image = pygame.transform.rotate(self.image, -angle)
 
     def update(self, frame_time):
-        old_rect = MovableObject.update(self, frame_time)
-        return old_rect
+        return MovableObject.update(self, frame_time)

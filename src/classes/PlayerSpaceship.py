@@ -8,9 +8,8 @@ pygame.init()
 
 
 class PlayerSpaceship(Spaceship):
-    def __init__(self, img, pos = pygame.math.Vector2(0,0), direction = pygame.math.Vector2(0,-1), v = pygame.math.Vector2(0,0), weapons = [None, None], hp = None):
+    def __init__(self, img, pos = pygame.math.Vector2(0,0), direction = pygame.math.Vector2(0,-1), v = pygame.math.Vector2(0,0), weapons = [None, None]):
         Spaceship.__init__(self, img = img, pos = pos, direction = direction, v = v)
-        self.hp = hp
         global SOUND_MANAGER
         SOUND_MANAGER.load_sound( COLLECT_SOUND, COLLECT_VOLUME )
 

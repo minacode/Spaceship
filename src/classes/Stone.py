@@ -15,5 +15,4 @@ class Stone(VisibleObject, MovableObject, CollidableObject):
         CollidableObject.__init__(self)
 
     def update(self, frame_time):
-        old_rect = MovableObject.update(self, frame_time)
-        return old_rect
+        return MovableObject.update(self, frame_time)
